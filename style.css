@@ -1,0 +1,15 @@
+h1 {
+    font-size: 60pt;
+    color: #eee;
+    text-align: right;
+    margin: 0px;
+}
+body {
+    font-size: 12pt;
+    color: #999;
+    margin: 5px;
+}
+p {
+    font-size: 14pt;
+    margin: 0px 20px;
+}
