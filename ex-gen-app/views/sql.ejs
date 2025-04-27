@@ -12,15 +12,7 @@
         </header>
         <div role="main">
             <table class="table">
-                <% for(var i in content){ %>
-                <tr>
-                    <% var obj = content[i]; %>
-                    <th><%= obj.id %></th>
-                    <td><%= obj.name %></td>
-                    <td><%= obj.mail %></td>
-                    <td><%= obj.age %></td>
-                </tr>
-                <% } %>
+                <%- content %>
             </table>
         </div>
     </body>
