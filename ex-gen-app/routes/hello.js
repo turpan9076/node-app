@@ -74,7 +74,6 @@ router.get('/edit', (req, res, next) => {
         });
     });
 });
-
 router.post('/edit', (req, res, next) => {
     const id = req.body.id;
     const nm = req.body.name;
@@ -86,5 +85,63 @@ router.post('/edit', (req, res, next) => {
     });
     res.redirect('/hello');
 })
+
+router.get('/delete', (req, res, next) => {
+    const id = req.query.id;
+    db.serialize(() => {
+        const q = "select * from mydata where id = ?";
+        db.get(q, [id], (err, row) => {
+            if(!err){
+                var data = {
+                    title: 'Hello/Delete',
+                    content: 'id = ' + id + 'のレコードを削除：',
+                    mydata: row
+                }
+                res.render('hello/delete', data);
+            }
+        });
+    });
+});
+router.post('/delete', (req, res, next) => {
+    const id = req.body.id;
+    db.serialize(() => {
+        const q = "delete from mydata where id = ?";
+        db.run(q, id);
+    });
+    res.redirect('/hello');
+})
+
+router.get('/find', (req, res, next) => {
+    db.serialize(() => {
+        db.all("select * from mydata", (err, rows) => {
+            if(!err){
+                var data = {
+                    title: 'Hello/find',
+                    find: '',
+                    content: '検索結果を入力してください。',
+                    mydata: rows
+                };
+                res.render('hello/find', data);
+            }
+        });
+    });
+});
+router.post('/find', (req, res, next) => {
+    var find = req.body.find;
+    db.serialize(() => {
+        var q = "select * from mydata where ";
+        db.all(q + find, [], (err, rows) => {
+            if(!err){
+                var data = {
+                    title: 'Hello/find',
+                    find: find,
+                    content: '検索条件 ' + find,
+                    mydata: rows
+                }
+                res.render('hello/find', data);
+            }
+        });
+    });
+});
 
 module.exports = router;
